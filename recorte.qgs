@@ -1,5 +1,5 @@
 <!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
-<qgis projectname="No title" version="3.4.1-Madeira">
+<qgis version="3.4.1-Madeira" projectname="No title">
   <homePath path=""/>
   <title>No title</title>
   <autotransaction active="0"/>
@@ -17,7 +17,7 @@
       <geographicflag>true</geographicflag>
     </spatialrefsys>
   </projectCrs>
-  <mapcanvas annotationsVisible="1" name="theMapCanvas">
+  <mapcanvas name="theMapCanvas" annotationsVisible="1">
     <units>unknown</units>
     <extent>
       <xmin>-44.288547625554</xmin>
@@ -29,20 +29,20 @@
     <rendermaptile>0</rendermaptile>
   </mapcanvas>
   <layer-tree-group>
-    <layer-tree-layer id="Recorte_Teste_68baa638_7b1f_4565_9e1c_20c52a00da47" checked="Qt::Checked" expanded="1" source="./data/teste1/Recorte_Teste.shp" providerKey="ogr" name="cell_usos"/>
+    <layer-tree-layer providerKey="ogr" source="./data/teste1/Recorte_Teste.shp" checked="Qt::Checked" id="Recorte_Teste_e2893635_1d8d_4469_8b0e_0396d0392cb0" expanded="1" name="cell_usos"/>
     <custom-order enabled="0">
-      <item>Recorte_Teste_68baa638_7b1f_4565_9e1c_20c52a00da47</item>
+      <item>Recorte_Teste_e2893635_1d8d_4469_8b0e_0396d0392cb0</item>
     </custom-order>
   </layer-tree-group>
   <projectlayers>
-    <maplayer simplifyAlgorithm="0" simplifyDrawingTol="1" maxScale="0" hasScaleBasedVisibilityFlag="0" styleCategories="AllStyleCategories" simplifyDrawingHints="1" type="vector" simplifyMaxScale="1" minScale="1e+08" labelsEnabled="0" geometry="MultiPolygon" refreshOnNotifyEnabled="0" autoRefreshTime="0" autoRefreshEnabled="0" readOnly="0" refreshOnNotifyMessage="" simplifyLocal="1">
+    <maplayer autoRefreshEnabled="0" styleCategories="AllStyleCategories" type="vector" minScale="1e+08" simplifyLocal="1" maxScale="0" hasScaleBasedVisibilityFlag="0" labelsEnabled="0" simplifyMaxScale="1" simplifyDrawingHints="1" geometry="MultiPolygon" autoRefreshTime="0" refreshOnNotifyMessage="" simplifyAlgorithm="0" readOnly="0" simplifyDrawingTol="1" refreshOnNotifyEnabled="0">
       <extent>
         <xmin>-44.288547625554</xmin>
         <ymin>-2.51444575268971</ymin>
         <xmax>-44.2768945394813</xmax>
         <ymax>-2.51444575268971</ymax>
       </extent>
-      <id>Recorte_Teste_68baa638_7b1f_4565_9e1c_20c52a00da47</id>
+      <id>Recorte_Teste_e2893635_1d8d_4469_8b0e_0396d0392cb0</id>
       <datasource>./data/teste1/Recorte_Teste.shp</datasource>
       <layername>cell_usos</layername>
       <srs>
@@ -61,6 +61,6 @@
     </maplayer>
   </projectlayers>
   <layerorder>
-    <layer id="Recorte_Teste_68baa638_7b1f_4565_9e1c_20c52a00da47"/>
+    <layer id="Recorte_Teste_e2893635_1d8d_4469_8b0e_0396d0392cb0"/>
   </layerorder>
 </qgis>
