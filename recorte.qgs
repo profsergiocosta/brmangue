@@ -17,7 +17,7 @@
       <geographicflag>true</geographicflag>
     </spatialrefsys>
   </projectCrs>
-  <mapcanvas name="theMapCanvas" annotationsVisible="1">
+  <mapcanvas annotationsVisible="1" name="theMapCanvas">
     <units>unknown</units>
     <extent>
       <xmin>-44.288547625554</xmin>
@@ -29,21 +29,21 @@
     <rendermaptile>0</rendermaptile>
   </mapcanvas>
   <layer-tree-group>
-    <layer-tree-layer id="Recorte_Teste_edf21351_fa97_41d3_9ed7_de4511e93781" providerKey="ogr" checked="Qt::Checked" name="cell_usos" source="./data/teste1/Recorte_Teste.shp" expanded="1"/>
+    <layer-tree-layer source="./data\teste_uso\Recorte_Teste.shp" expanded="1" checked="Qt::Checked" id="Recorte_Teste_7829e660_6e74_4e30_be35_abf3e69bfc34" name="cell_usos" providerKey="ogr"/>
     <custom-order enabled="0">
-      <item>Recorte_Teste_edf21351_fa97_41d3_9ed7_de4511e93781</item>
+      <item>Recorte_Teste_7829e660_6e74_4e30_be35_abf3e69bfc34</item>
     </custom-order>
   </layer-tree-group>
   <projectlayers>
-    <maplayer simplifyLocal="1" simplifyDrawingHints="1" minScale="1e+08" readOnly="0" labelsEnabled="0" refreshOnNotifyMessage="" simplifyDrawingTol="1" styleCategories="AllStyleCategories" type="vector" geometry="MultiPolygon" autoRefreshTime="0" refreshOnNotifyEnabled="0" maxScale="0" simplifyMaxScale="1" autoRefreshEnabled="0" hasScaleBasedVisibilityFlag="0" simplifyAlgorithm="0">
+    <maplayer type="vector" simplifyAlgorithm="0" hasScaleBasedVisibilityFlag="0" minScale="1e+08" simplifyDrawingTol="1" autoRefreshTime="0" refreshOnNotifyEnabled="0" labelsEnabled="0" styleCategories="AllStyleCategories" simplifyMaxScale="1" maxScale="0" geometry="MultiPolygon" simplifyLocal="1" autoRefreshEnabled="0" simplifyDrawingHints="1" readOnly="0" refreshOnNotifyMessage="">
       <extent>
         <xmin>-44.288547625554</xmin>
         <ymin>-2.51444575268971</ymin>
         <xmax>-44.2768945394813</xmax>
         <ymax>-2.51444575268971</ymax>
       </extent>
-      <id>Recorte_Teste_edf21351_fa97_41d3_9ed7_de4511e93781</id>
-      <datasource>./data/teste1/Recorte_Teste.shp</datasource>
+      <id>Recorte_Teste_7829e660_6e74_4e30_be35_abf3e69bfc34</id>
+      <datasource>./data\teste_uso\Recorte_Teste.shp</datasource>
       <layername>cell_usos</layername>
       <srs>
         <spatialrefsys>
@@ -61,6 +61,6 @@
     </maplayer>
   </projectlayers>
   <layerorder>
-    <layer id="Recorte_Teste_edf21351_fa97_41d3_9ed7_de4511e93781"/>
+    <layer id="Recorte_Teste_7829e660_6e74_4e30_be35_abf3e69bfc34"/>
   </layerorder>
 </qgis>

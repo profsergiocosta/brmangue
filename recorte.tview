@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<Project version="5.5.1" xmlns="http://www.terralib.org/schemas/qt/af" xmlns:ogc="http://www.opengis.net/ogc" xmlns:se="http://www.opengis.net/se" xmlns:te_da="http://www.terralib.org/schemas/dataaccess" xmlns:te_map="http://www.terralib.org/schemas/maptools" xmlns:te_qt_af="http://www.terralib.org/schemas/common/af" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsd="http://www.w3.org/2001/XMLSchema-instance" xsd:schemaLocation="http://www.terralib.org/schemas/qt/af /home/scosta/apps/terrame-2.0.1/bin/share/terralib/schemas/terralib/qt/af/project.xsd">
+<Project version="5.5.1" xmlns="http://www.terralib.org/schemas/qt/af" xmlns:ogc="http://www.opengis.net/ogc" xmlns:se="http://www.opengis.net/se" xmlns:te_da="http://www.terralib.org/schemas/dataaccess" xmlns:te_map="http://www.terralib.org/schemas/maptools" xmlns:te_qt_af="http://www.terralib.org/schemas/common/af" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsd="http://www.w3.org/2001/XMLSchema-instance" xsd:schemaLocation="http://www.terralib.org/schemas/qt/af C:\TerraME\bin\share/terralib/schemas/terralib/qt/af/project.xsd">
 
   <Title>No title</Title>
 
   <Author>No author</Author>
 
   <te_da:DataSourceList xmlns:te_common="http://www.terralib.org/schemas/common">
-    <te_da:DataSource access_driver="OGR" id="2390221a-c5a7-4b36-89d4-c58593316cff" type="OGR">
+    <te_da:DataSource access_driver="OGR" id="d2ba1e2a-1340-4283-b4a8-e823f627417e" type="OGR">
       <te_da:Title>cell_usos</te_da:Title>
       <te_da:Description>Created on TerraME</te_da:Description>
-      <te_da:URI>file%3A%2F%2Fdata%2Fteste1%2FRecorte_Teste.shp</te_da:URI>
+      <te_da:URI>file%3A%2F%2Fdata%2Fteste_uso%2FRecorte_Teste.shp</te_da:URI>
     </te_da:DataSource>
   </te_da:DataSourceList>
 
   <ComponentList/>
 
   <te_map:LayerList>
-    <te_map:DataSetLayer id="c1b41234-b5d7-4fe8-b159-0cb823cd7595">
+    <te_map:DataSetLayer id="6a24d411-068d-41cb-9cf0-0d84a7e31eba">
       <te_map:Title>cell_usos</te_map:Title>
       <te_map:Visible>NOT_VISIBLE</te_map:Visible>
       <te_map:Encoding>ISO-8859-1</te_map:Encoding>
       <te_map:DataSetName>Recorte_Teste</te_map:DataSetName>
-      <te_map:DataSourceId>2390221a-c5a7-4b36-89d4-c58593316cff</te_map:DataSourceId>
+      <te_map:DataSourceId>d2ba1e2a-1340-4283-b4a8-e823f627417e</te_map:DataSourceId>
       <te_map:SRSInfo>
         <te_map:SRID>4326</te_map:SRID>
         <te_map:Proj4>+proj=longlat +datum=WGS84 +no_defs</te_map:Proj4>

@@ -29,7 +29,7 @@ CHANNEL_RIVER = 0
 
 recorte = Project{
 	file = "recorte.qgs",
-	cell_usos = "data/teste1/Recorte_Teste.shp",
+	cell_usos = "data/teste_uso/Recorte_Teste.shp",
     clean = true,
 
 }
@@ -65,12 +65,19 @@ function calc_altitude_media (cs)
     return media
 end
 
+function sleep (a) 
+    local sec = tonumber(os.clock() + a); 
+    while (os.clock() < sec) do 
+    end 
+end
 
 BrMangue = Model {
 
 	start = 1,
-	finalTime = 10,
+	finalTime = 5,
     altitude_media = calc_altitude_media(cs),
+
+	alturaMare = 6,
 
 	init = function (model) 
 
@@ -93,7 +100,7 @@ BrMangue = Model {
 					print("ITERACAO : ", ev:getTime())
 					forEachCell(cs, function(cell)
 
-						-- inundação
+						
 						if (isMarOrInundado(cell.past.Usos)) and cell.past.Alt2 >= 0 then				
 							
 							countNeigh = 1 -- no m�nimo ter� a pr�pria c�lula
@@ -105,7 +112,7 @@ BrMangue = Model {
 								end
 							end)
 						
-							aumentoNivelMar = 0.5 -- so para poder testar o comportamento
+							aumentoNivelMar = 0.05 -- so para poder testar o comportamento
 
 							qtdAgua = aumentoNivelMar / countNeigh
 					
@@ -117,14 +124,18 @@ BrMangue = Model {
 									if ( not isMarOrInundado(neigh.past.Usos)) then
 										inundar (neigh) -- alteracao de valores para inundado
 									end
-
 								end
 							end)
+
+
+							deslocamentoHorizontalLama = model.alturaMare + aumentoNivelMar
+
 						end
 					end)
 					cs:synchronize()
 					--cs:save("result"..ev:getTime(), "Alt2")
                     model.altitude_media = calc_altitude_media(cs)
+					sleep(0.5)
 				end
 			},
 
