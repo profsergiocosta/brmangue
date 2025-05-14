@@ -51,19 +51,42 @@ cs:createNeighborhood {
 }
 cs:synchronize(); 
 
+function calc_altitude_media (cs) 
+    soma = 0
+    n = 0
+    forEachCell(cs, function(cell)
+        if (cell.Usos == MAR) then
+            soma = soma + cell.Alt2
+            n = n + 1
+        end
+    end)
+    media = soma / n
+    --print (media)
+    return media
+end
 
 
 BrMangue = Model {
 
 	start = 1,
-	finalTime = 12,
+	finalTime = 10,
+    altitude_media = calc_altitude_media(cs),
 
 	init = function (model) 
+
+        
 
 		model.map_alt = cria_map_alt()
 		model.map = cria_map()
 
+        model.chart = Chart{
+			target = model,
+			select = {"altitude_media"}
+		}
+
 		model.timer = Timer {
+
+           
 
 			Event{
 				action = function (ev)
@@ -101,11 +124,13 @@ BrMangue = Model {
 					end)
 					cs:synchronize()
 					--cs:save("result"..ev:getTime(), "Alt2")
+                    model.altitude_media = calc_altitude_media(cs)
 				end
 			},
 
 			Event {action = model.map_alt},
 			Event {action = model.map},
+            Event {action = model.chart}
 		}
 	end,
 }
