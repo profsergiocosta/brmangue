@@ -6,7 +6,7 @@
   <Author>No author</Author>
 
   <te_da:DataSourceList xmlns:te_common="http://www.terralib.org/schemas/common">
-    <te_da:DataSource access_driver="OGR" id="b7852685-8dfb-4a57-aa4e-e74a0b8a1817" type="OGR">
+    <te_da:DataSource access_driver="OGR" id="2390221a-c5a7-4b36-89d4-c58593316cff" type="OGR">
       <te_da:Title>cell_usos</te_da:Title>
       <te_da:Description>Created on TerraME</te_da:Description>
       <te_da:URI>file%3A%2F%2Fdata%2Fteste1%2FRecorte_Teste.shp</te_da:URI>
@@ -16,12 +16,12 @@
   <ComponentList/>
 
   <te_map:LayerList>
-    <te_map:DataSetLayer id="be48e74a-a3de-41d5-8ebb-105f1cc7cccb">
+    <te_map:DataSetLayer id="c1b41234-b5d7-4fe8-b159-0cb823cd7595">
       <te_map:Title>cell_usos</te_map:Title>
       <te_map:Visible>NOT_VISIBLE</te_map:Visible>
       <te_map:Encoding>ISO-8859-1</te_map:Encoding>
       <te_map:DataSetName>Recorte_Teste</te_map:DataSetName>
-      <te_map:DataSourceId>b7852685-8dfb-4a57-aa4e-e74a0b8a1817</te_map:DataSourceId>
+      <te_map:DataSourceId>2390221a-c5a7-4b36-89d4-c58593316cff</te_map:DataSourceId>
       <te_map:SRSInfo>
         <te_map:SRID>4326</te_map:SRID>
         <te_map:Proj4>+proj=longlat +datum=WGS84 +no_defs</te_map:Proj4>
