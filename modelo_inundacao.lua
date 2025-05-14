@@ -56,7 +56,7 @@ cs:synchronize();
 BrMangue = Model {
 
 	start = 1,
-	finalTime = 10,
+	finalTime = 12,
 
 	init = function (model) 
 
