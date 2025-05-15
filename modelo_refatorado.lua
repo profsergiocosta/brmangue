@@ -1,7 +1,7 @@
 -- Sea-Level Rise Impacts on Mangrove Ecosystem
 -- Case Study: Maranhense Reentrances
 -- Author: Denilson da Silva Bezerra
--- Refactored by: H�lder Pereira Borges, updated for clarity
+-- Refactored by: Sergio Souza Costa
 
 -- IMPORTS
 import("gis")
@@ -25,7 +25,7 @@ SOLO_MANGUE_MIGRADO = 3
 CANAL_FLUVIAL = 0
 
 -- FUNÇÃO UTILITÁRIA: VERIFICA SE É MAR OU INUNDADO
-function isMarOuInundado(uso)
+function isSeaOrFlooded(uso)
     return uso == MAR or
            uso == SOLO_DESCOBERTO_INUNDADO or
            uso == AREA_ANTROPIZADA_INUNDADO or
@@ -34,7 +34,7 @@ function isMarOuInundado(uso)
 end
 
 -- FUNÇÃO DE INUNDAÇÃO
-function inundar(cell)
+function applyFlooding(cell)
     local uso = cell.past.Usos
 
     if uso == MANGUE then
@@ -130,7 +130,7 @@ function calculateAverageAltitudes(cs)
     forEachCell(cs, function(cell)
         totalAlt = totalAlt + cell.Alt2
         count = count + 1
-        if isMarOuInundado(cell.past.Usos) then
+        if isSeaOrFlooded(cell.past.Usos) then
             totalSeaAlt = totalSeaAlt + cell.Alt2
             seaCount = seaCount + 1
         end
@@ -163,7 +163,7 @@ BrMangue = Model{
                     print("ITERAÇÃO:", time)
 
                     forEachCell(cellSpace, function(cell)
-                        if isMarOuInundado(cell.past.Usos) and cell.past.Alt2 >= 0 then
+                        if isSeaOrFlooded(cell.past.Usos) and cell.past.Alt2 >= 0 then
                             local neighborCount = 1
 
                             forEachNeighbor(cell, function(neigh)
@@ -178,8 +178,8 @@ BrMangue = Model{
                             forEachNeighbor(cell, function(neigh)
                                 if neigh.past.Alt2 < cell.past.Alt2 then
                                     neigh.Alt2 = neigh.Alt2 + flow
-                                    if not isMarOuInundado(neigh.past.Usos) then
-                                        inundar(neigh)
+                                    if not isSeaOrFlooded(neigh.past.Usos) then
+                                        applyFlooding(neigh)
                                     end
                                 end
                             end)
