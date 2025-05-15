@@ -153,7 +153,7 @@ BrMangue = Model{
         model.altMap = cria_map_alt(cellSpace)
         model.landUseMap = cria_map(cellSpace)
 
-        model.chartSea = Chart{ target = model, select = { "avgSeaAlt" } }
+        --model.chartSea = Chart{ target = model, select = { "avgSeaAlt" } }
         model.chartAlt = Chart{ target = model, select = { "avgAlt" } }
 
         model.timer = Timer{
@@ -219,7 +219,7 @@ BrMangue = Model{
             Event {action = model.altMap},
 			Event {action = model.landUseMap},
             Event{ start = model.start + 2, action = model.chartAlt },
-            Event{ start = model.start + 2, action = model.chartSea }
+           -- Event{ start = model.start + 2, action = model.chartSea }
         }
     end
 }
