@@ -101,6 +101,10 @@ function inundar(cell)
     end
 end
 
+function inundar__(cell)
+	cell.Usos = MAR
+end
+
 
 function isMarOrInundado(uso)
     return 

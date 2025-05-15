@@ -95,6 +95,7 @@ BrMangue = Model {
 		model.map = cria_map()
 		--model.map_solo = cria_map_solo()
 
+		-- o grafico vai achatando, pois ao inundar, estou adicionando areas mais baixas
         model.chart_mar = Chart{
 			target = model,
 			select = {"altitude_media_mar"}
@@ -133,7 +134,12 @@ BrMangue = Model {
 							forEachNeighbor(cell, function(neigh)
 								if (neigh.past.Alt2 < cell.past.Alt2) then 
 									neigh.Alt2 = neigh.Alt2 + fluxo
-									if ( not isMarOrInundado(neigh.past.Usos)) then
+									-- if  Increased_see >= (neigh.Alt2 + flux) then
+									if ( not isMarOrInundado(neigh.past.Usos)) 
+									--and (neigh.past.Alt2 + fluxo < cell.past.Alt2)
+									--and (neigh.past.Alt2 == cell.past.Alt2)
+									then 
+
 										inundar (neigh) -- alteracao de valores para inundado
 									end
 								end
