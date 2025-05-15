@@ -84,7 +84,7 @@ BrMangue = Model {
 	finalTime = 100,
    
 
-	alturaMare = 6,
+	alturaMare = 6, -- Tide height on the Maranh�o Island (Ferreira, 1988).
 	Tx_elev = 0.011, -- Rate of sea-level rise (m) in a scenario of increase of approximately 0.81 m by 2100 (IPCC, 2013, p.17). 
 	--Tx_elev = 0,
 	init = function (model) 
@@ -154,14 +154,46 @@ BrMangue = Model {
 						Txa = 1.693 + (0.939 * Elev_mm) -- Equation proposed by Alongi (2008) with R2 = 0,704 and p < 0,001
 						Txa_m = Txa / 1000 -- Txa in metrs
 
+						-- nova altura da mare ?
+						deslocamentoHorizontalLama = model.alturaMare + Elev_m
+
+						-- Simulating the advancement of mud banks
+						if (cell.ClasseSolos == SOLO_MANGUE)then			
+							forEachNeighbor(cell, function(cell, neigh)
+								if ((neigh.Usos == VEGETACAO_TERRESTRE) or (neigh.Usos == SOLO_DESCOBERTO) )	
+								and (neigh.Alt2 <= deslocamentoHorizontalLama) 
+								then
+									neigh.ClasseSolos = SOLO_MANGUE_MIGRADO  -- DEVERIA SER GRADATIVA
+								end
+							end)
+						end	
+
 						--[[
-						adaptar a logica
+						esta na versao de 2014, mas nao aparece na versao de 2013 e nem na mais recente
 						-- rate of vertical accretion of mud in each cell
-						if (cell.past.ClasseSolos ~= MANGROVE_SOIL2 and cell.ClasseSolos == MANGROVE_SOIL2) or (cell.ClassesSolos == MANGROVE_SOIL) and 
+						if (cell.past.ClasseSolos ~= SOLO_MANGUE_MIGRADO and cell.ClasseSolos == SOLO_MANGUE_MIGRADO) or (cell.ClassesSolos == SOLO_MANGUE) and 
 								(cell.ClasseUsos2 ~= SEE) then												 	
 								cell.Alt2 = cell.Alt2 + Txa_m
 						end
 						--]]
+
+						-- Simulation of mangrove migration	
+						
+							if(cell.Usos == MANGUE)then			
+								forEachNeighbor(cell, function(cell, neigh)
+									if (
+										(neigh.Usos == VEGETACAO_TERRESTRE) 
+										or (neigh.Usos == SOLO_DESCOBERTO) 
+									)
+									and (neigh.Alt2 <= deslocamentoHorizontalLama) 
+									
+									then
+										neigh.Usos = MANGUE_MIGRADO
+									end
+								end)
+							end	
+						
+
 
 						end
 					end)

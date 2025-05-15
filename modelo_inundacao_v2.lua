@@ -86,10 +86,11 @@ BrMangue = Model {
 
 		model.timer = Timer {
 
-           
 
 			Event{
 				action = function (ev)
+					local time = ev:getTime()
+
 					print("ITERACAO : ", ev:getTime())
 					forEachCell(cs, function(cell)
 
@@ -97,9 +98,7 @@ BrMangue = Model {
 						if (isMarOrInundado(cell.past.Usos)) and cell.past.Alt2 >= 0 then				
 							
 							countNeigh = 1 -- no m�nimo ter� a pr�pria c�lula
-
 							forEachNeighbor(cell, function(neigh)
-							
 								if (neigh.past.Alt2 < cell.past.Alt2) then -- --CONTA QTOS VIZINHOS São MAIS BAIXOS QUE A C�LULA CORRENTE
 									countNeigh = countNeigh + 1
 								end
@@ -107,18 +106,19 @@ BrMangue = Model {
 						
 							aumentoNivelMar = 0.5 -- so para poder testar o comportamento
 
-							qtdAgua = aumentoNivelMar / countNeigh
-					
-							cell.Alt2 = cell.Alt2 + qtdAgua 
+							model.Tx_elev = 0.5
+							Elev_m =  (time * model.Tx_elev)  -- cellreference.Alt2 + (time * Tx_elev)
+
+							fluxo = Elev_m / countNeigh
 				
 							forEachNeighbor(cell, function(neigh)
-								if (neigh.past.Alt2 < cell.past.Alt2) then 
-									neigh.Alt2 = neigh.Alt2 + qtdAgua
-									if ( not isMarOrInundado(neigh.past.Usos)) then
+								--print (Elev_m, (neigh.past.Alt2 ), fluxo, countNeigh)
+								if ( not isMarOrInundado(neigh.past.Usos)) 
+								and cell.past.Alt2 + fluxo >= (neigh.past.Alt2 )
+								then
 										inundar (neigh) -- alteracao de valores para inundado
-									end
-
 								end
+
 							end)
 						end
 					end)
