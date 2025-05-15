@@ -42,7 +42,7 @@ cs = CellularSpace{
 	project = recorte,
 	layer = "cell_usos",
     xy = { "Col", "Lin" },
-	select= { "ClasseSolos", "Alt2", "Usos" }
+	select= { "ClaseSolos", "Alt2", "Usos" }
 }
 
 
@@ -88,6 +88,7 @@ BrMangue = Model {
 
 		model.map_alt = cria_map_alt()
 		model.map = cria_map()
+		--model.map_solo = cria_map_solo()
 
         model.chart = Chart{
 			target = model,
@@ -144,6 +145,7 @@ BrMangue = Model {
 
 			Event {action = model.map_alt},
 			Event {action = model.map},
+			--Event {action = model.map_solo},
             Event {action = model.chart}
 		}
 	end,

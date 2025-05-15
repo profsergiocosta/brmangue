@@ -14,6 +14,30 @@ function cria_map_alt ()
 
 end
 
+
+function cria_map_solo () 
+
+	return 
+		Map{
+			target = cs,
+			select = "ClaseSolos",
+			value = {
+				CHANNEL_RIVER,
+				SOLO_MANGUE,
+				2,
+				SOLO_MANGUE_MIGRADO,
+				
+			},
+			color = {
+				{0, 0, 200},         -- CHANNEL_RIVER (azul forte)
+				{0, 100, 0},         -- SOLO_MANGUE (verde escuro)
+				{128, 128, 0},       --  ???
+				{0, 255, 0},         -- SOLO_MANGUE_MIGRADO (verde claro)
+			},
+		}
+	end
+	
+
 function cria_map () 
 
 return 
