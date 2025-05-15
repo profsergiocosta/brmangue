@@ -6,7 +6,7 @@
   <Author>No author</Author>
 
   <te_da:DataSourceList xmlns:te_common="http://www.terralib.org/schemas/common">
-    <te_da:DataSource access_driver="OGR" id="84ca42bc-5923-409f-8384-05c38f223612" type="OGR">
+    <te_da:DataSource access_driver="OGR" id="22638858-9df3-47fb-b7c8-6adcfbb069fa" type="OGR">
       <te_da:Title>cell_usos</te_da:Title>
       <te_da:Description>Created on TerraME</te_da:Description>
       <te_da:URI>file%3A%2F%2Fdata%2Fanil%2Felevacao_pol.shp</te_da:URI>
@@ -16,12 +16,12 @@
   <ComponentList/>
 
   <te_map:LayerList>
-    <te_map:DataSetLayer id="58097b8e-3e0b-49c5-9839-33119780e7e6">
+    <te_map:DataSetLayer id="d17a8eb0-3106-480c-956b-3303260564a6">
       <te_map:Title>cell_usos</te_map:Title>
       <te_map:Visible>NOT_VISIBLE</te_map:Visible>
       <te_map:Encoding>ISO-8859-1</te_map:Encoding>
       <te_map:DataSetName>elevacao_pol</te_map:DataSetName>
-      <te_map:DataSourceId>84ca42bc-5923-409f-8384-05c38f223612</te_map:DataSourceId>
+      <te_map:DataSourceId>22638858-9df3-47fb-b7c8-6adcfbb069fa</te_map:DataSourceId>
       <te_map:SRSInfo>
         <te_map:SRID>0</te_map:SRID>
         <te_map:Proj4/>

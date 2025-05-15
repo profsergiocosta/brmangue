@@ -168,15 +168,7 @@ BrMangue = Model {
 							end)
 						end	
 
-						--[[
-						esta na versao de 2014, mas nao aparece na versao de 2013 e nem na mais recente
-						-- rate of vertical accretion of mud in each cell
-						if (cell.past.ClasseSolos ~= SOLO_MANGUE_MIGRADO and cell.ClasseSolos == SOLO_MANGUE_MIGRADO) or (cell.ClassesSolos == SOLO_MANGUE) and 
-								(cell.ClasseUsos2 ~= SEE) then												 	
-								cell.Alt2 = cell.Alt2 + Txa_m
-						end
-						--]]
-
+	
 						-- Simulation of mangrove migration	
 						
 							if(cell.Usos == MANGUE)then			

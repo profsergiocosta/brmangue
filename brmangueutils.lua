@@ -1,47 +1,30 @@
-
-
-function cria_map_alt () 
-
-	return 
-		Map{
-			target = cs,
-			select = "Alt2",
-			color  = "RdYlGn",
-			min = 0,
-			max = 50,
-			slices = 10
-		}
-
+-- Verifica se o uso do solo é mar ou algum tipo de área inundada
+function isMarOuInundado(uso)
+    return uso == MAR or
+           uso == SOLO_DESCOBERTO_INUNDADO or
+           uso == AREA_ANTROPIZADA_INUNDADO or
+           uso == MANGUE_INUNDADO or
+           uso == VEGETACAO_TERRESTRE_INUNDADO
 end
 
+-- Aplica transformação de inundação a uma célula com base no uso anterior
+function inundar(celula)
+    local uso = celula.past.Usos
 
-function cria_map_solo () 
+    if uso == MANGUE then
+        celula.Usos = MANGUE_INUNDADO
+    elseif uso == VEGETACAO_TERRESTRE then
+        celula.Usos = VEGETACAO_TERRESTRE_INUNDADO
+    elseif uso == AREA_ANTROPIZADA then
+        celula.Usos = AREA_ANTROPIZADA_INUNDADO
+    elseif uso == SOLO_DESCOBERTO then
+        celula.Usos = SOLO_DESCOBERTO_INUNDADO
+    end
+end
 
-	return 
-		Map{
-			target = cs,
-			select = "ClaseSolos",
-			value = {
-				CHANNEL_RIVER,
-				SOLO_MANGUE,
-				2,
-				SOLO_MANGUE_MIGRADO,
-				
-			},
-			color = {
-				{0, 0, 200},         -- CHANNEL_RIVER (azul forte)
-				{0, 100, 0},         -- SOLO_MANGUE (verde escuro)
-				{128, 128, 0},       --  ???
-				{0, 255, 0},         -- SOLO_MANGUE_MIGRADO (verde claro)
-			},
-		}
-	end
-	
-
-function cria_map () 
-
-return 
-	Map{
+-- Cria mapa principal com legenda de usos do solo
+function cria_map(cs)
+	return Map{
 		target = cs,
 		select = "Usos",
 		value = {
@@ -75,44 +58,21 @@ return
 			"Área Antropizada",
 			"Solo Descoberto",
 			"Solo Descoberto Inundado",
-			"Área Antrópica Inundado",
+			"Área Antrópica Inundada",
 			"Mangue Migrado",
 			"Mangue Inundado",
-			"Vegetação Terrestre Inundado"
+			"Vegetação Terrestre Inundada"
 		}
 	}
 end
 
-
-
-
-
--- funcoes temporarias, so para simplificar a leitura do codigo
-
-function inundar(cell)
-    if cell.Usos == AREA_ANTROPIZADA then
-        cell.Usos = AREA_ANTROPIZADA_INUNDADO
-    elseif cell.Usos == SOLO_DESCOBERTO then
-        cell.Usos = SOLO_DESCOBERTO_INUNDADO
-    elseif cell.Usos == VEGETACAO_TERRESTRE then
-        cell.Usos = VEGETACAO_TERRESTRE_INUNDADO
-    elseif cell.Usos == MANGUE or cell.Usos == MANGUE_MIGRADO then
-        cell.Usos = MANGUE_INUNDADO
-    end
+-- Cria mapa de elevação
+function cria_map_alt(cellSpace)
+    return Map{
+        target = cellSpace,
+        select = "Alt2",
+		color  = "RdYlGn",
+        slices = 10,
+        size = 1
+    }
 end
-
-function inundar__(cell)
-	cell.Usos = MAR
-end
-
-
-function isMarOrInundado(uso)
-    return 
-		   uso == MAR or
-           uso == MANGUE_INUNDADO or
-           uso == AREA_ANTROPIZADA_INUNDADO or
-           uso == SOLO_DESCOBERTO_INUNDADO or
-           uso == VEGETACAO_TERRESTRE_INUNDADO
-end
-
-
