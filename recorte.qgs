@@ -29,20 +29,20 @@
     <rendermaptile>0</rendermaptile>
   </mapcanvas>
   <layer-tree-group>
-    <layer-tree-layer expanded="1" checked="Qt::Checked" providerKey="ogr" name="cell_usos" id="elevacao_pol_5f3d4865_7751_4e58_ade5_2e5611b17ab2" source="./data/anil/elevacao_pol.shp"/>
+    <layer-tree-layer id="elevacao_pol_18fe41f8_7394_42ce_8721_e667a1cd32df" expanded="1" name="cell_usos" source="./data/anil/elevacao_pol.shp" checked="Qt::Checked" providerKey="ogr"/>
     <custom-order enabled="0">
-      <item>elevacao_pol_5f3d4865_7751_4e58_ade5_2e5611b17ab2</item>
+      <item>elevacao_pol_18fe41f8_7394_42ce_8721_e667a1cd32df</item>
     </custom-order>
   </layer-tree-group>
   <projectlayers>
-    <maplayer type="vector" refreshOnNotifyMessage="" minScale="1e+08" labelsEnabled="0" simplifyDrawingTol="1" geometry="MultiPolygon" styleCategories="AllStyleCategories" simplifyLocal="1" simplifyAlgorithm="0" autoRefreshTime="0" simplifyDrawingHints="1" readOnly="0" autoRefreshEnabled="0" refreshOnNotifyEnabled="0" simplifyMaxScale="1" hasScaleBasedVisibilityFlag="0" maxScale="0">
+    <maplayer autoRefreshEnabled="0" type="vector" simplifyLocal="1" maxScale="0" styleCategories="AllStyleCategories" simplifyMaxScale="1" simplifyAlgorithm="0" geometry="MultiPolygon" refreshOnNotifyMessage="" labelsEnabled="0" hasScaleBasedVisibilityFlag="0" refreshOnNotifyEnabled="0" simplifyDrawingHints="1" readOnly="0" minScale="1e+08" autoRefreshTime="0" simplifyDrawingTol="1">
       <extent>
         <xmin>1077690</xmin>
         <ymin>-279210</ymin>
         <xmax>1088160</xmax>
         <ymax>-279210</ymax>
       </extent>
-      <id>elevacao_pol_5f3d4865_7751_4e58_ade5_2e5611b17ab2</id>
+      <id>elevacao_pol_18fe41f8_7394_42ce_8721_e667a1cd32df</id>
       <datasource>./data/anil/elevacao_pol.shp</datasource>
       <layername>cell_usos</layername>
       <srs>
@@ -61,6 +61,6 @@
     </maplayer>
   </projectlayers>
   <layerorder>
-    <layer id="elevacao_pol_5f3d4865_7751_4e58_ade5_2e5611b17ab2"/>
+    <layer id="elevacao_pol_18fe41f8_7394_42ce_8721_e667a1cd32df"/>
   </layerorder>
 </qgis>
