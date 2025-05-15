@@ -8,7 +8,7 @@ function cria_map_alt ()
 			select = "Alt2",
 			color  = "RdYlGn",
 			min = 0,
-			max = 6,
+			max = 50,
 			slices = 10
 		}
 
