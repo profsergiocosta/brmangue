@@ -190,12 +190,12 @@ BrMangue = Model{
                             local accretionRate_mm = 1.693 + (0.939 * elev_mm)
                             local accretionRate_m = accretionRate_mm / 1000
 
-                            local limiteHorizontal = model.tideHeight + elev_m
+                            local tidalInfluenceZone = model.tideHeight + elev_m
 
                             if cell.ClasseSolos == SOLO_MANGUE then
                                 forEachNeighbor(cell, function(_, neigh)
                                     if (neigh.Usos == VEGETACAO_TERRESTRE or neigh.Usos == SOLO_DESCOBERTO)
-                                    and neigh.Alt2 <= limiteHorizontal then
+                                    and neigh.Alt2 <= tidalInfluenceZone then
                                         neigh.ClasseSolos = SOLO_MANGUE_MIGRADO
                                     end
                                 end)
@@ -204,7 +204,7 @@ BrMangue = Model{
                             if cell.Usos == MANGUE then
                                 forEachNeighbor(cell, function(_, neigh)
                                     if (neigh.Usos == VEGETACAO_TERRESTRE or neigh.Usos == SOLO_DESCOBERTO)
-                                    and neigh.Alt2 <= limiteHorizontal then
+                                    and neigh.Alt2 <= tidalInfluenceZone then
                                         neigh.Usos = MANGUE_MIGRADO
                                     end
                                 end)
