@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<Project version="5.5.1" xmlns="http://www.terralib.org/schemas/qt/af" xmlns:ogc="http://www.opengis.net/ogc" xmlns:se="http://www.opengis.net/se" xmlns:te_da="http://www.terralib.org/schemas/dataaccess" xmlns:te_map="http://www.terralib.org/schemas/maptools" xmlns:te_qt_af="http://www.terralib.org/schemas/common/af" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsd="http://www.w3.org/2001/XMLSchema-instance" xsd:schemaLocation="http://www.terralib.org/schemas/qt/af C:\TerraME\bin\share/terralib/schemas/terralib/qt/af/project.xsd">
+<Project version="5.5.1" xmlns="http://www.terralib.org/schemas/qt/af" xmlns:ogc="http://www.opengis.net/ogc" xmlns:se="http://www.opengis.net/se" xmlns:te_da="http://www.terralib.org/schemas/dataaccess" xmlns:te_map="http://www.terralib.org/schemas/maptools" xmlns:te_qt_af="http://www.terralib.org/schemas/common/af" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsd="http://www.w3.org/2001/XMLSchema-instance" xsd:schemaLocation="http://www.terralib.org/schemas/qt/af /home/scosta/apps/terrame-2.0.1/bin/share/terralib/schemas/terralib/qt/af/project.xsd">
 
   <Title>No title</Title>
 
   <Author>No author</Author>
 
   <te_da:DataSourceList xmlns:te_common="http://www.terralib.org/schemas/common">
-    <te_da:DataSource access_driver="OGR" id="d2ba1e2a-1340-4283-b4a8-e823f627417e" type="OGR">
+    <te_da:DataSource access_driver="OGR" id="e6637a81-16d2-4515-83ed-ce35c7297897" type="OGR">
       <te_da:Title>cell_usos</te_da:Title>
       <te_da:Description>Created on TerraME</te_da:Description>
-      <te_da:URI>file%3A%2F%2Fdata%2Fteste_uso%2FRecorte_Teste.shp</te_da:URI>
+      <te_da:URI>file%3A%2F%2Fdata%2Fanil%2Felevacao_pol.shp</te_da:URI>
     </te_da:DataSource>
   </te_da:DataSourceList>
 
   <ComponentList/>
 
   <te_map:LayerList>
-    <te_map:DataSetLayer id="6a24d411-068d-41cb-9cf0-0d84a7e31eba">
+    <te_map:DataSetLayer id="f64e39c4-b39e-43d4-bf73-a238ac81a656">
       <te_map:Title>cell_usos</te_map:Title>
       <te_map:Visible>NOT_VISIBLE</te_map:Visible>
       <te_map:Encoding>ISO-8859-1</te_map:Encoding>
-      <te_map:DataSetName>Recorte_Teste</te_map:DataSetName>
-      <te_map:DataSourceId>d2ba1e2a-1340-4283-b4a8-e823f627417e</te_map:DataSourceId>
+      <te_map:DataSetName>elevacao_pol</te_map:DataSetName>
+      <te_map:DataSourceId>e6637a81-16d2-4515-83ed-ce35c7297897</te_map:DataSourceId>
       <te_map:SRSInfo>
-        <te_map:SRID>4326</te_map:SRID>
-        <te_map:Proj4>+proj=longlat +datum=WGS84 +no_defs</te_map:Proj4>
+        <te_map:SRID>0</te_map:SRID>
+        <te_map:Proj4/>
       </te_map:SRSInfo>
-      <te_map:Extent llx="-44.288547625554003" lly="-2.5217521458347099" urx="-44.276894539481297" ury="-2.5144457526897099"/>
+      <te_map:Extent llx="1077690" lly="-288900" urx="1088160" ury="-279210"/>
       <te_map:RendererId>ABSTRACT_LAYER_RENDERER</te_map:RendererId>
       <te_map:CompositionMode>0</te_map:CompositionMode>
       <te_map:Style>

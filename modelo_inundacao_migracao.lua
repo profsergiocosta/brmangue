@@ -29,7 +29,9 @@ CHANNEL_RIVER = 0
 
 recorte = Project{
 	file = "recorte.qgs",
-	cell_usos = "data/teste_uso/Recorte_Teste.shp",
+	--cell_usos = "data/teste1/Recorte_Teste.shp",
+	--cell_usos = "data/teste_uso/Recorte_Teste.shp",
+	cell_usos = "data/anil/elevacao_pol.shp",
     clean = true,
 
 }
@@ -74,10 +76,11 @@ end
 BrMangue = Model {
 
 	start = 1,
-	finalTime = 5,
+	finalTime = 100,
     altitude_media = calc_altitude_media(cs),
 
 	alturaMare = 6,
+	Tx_elev = 0.011, -- Rate of sea-level rise (m) in a scenario of increase of approximately 0.81 m by 2100 (IPCC, 2013, p.17). 
 
 	init = function (model) 
 
@@ -112,9 +115,9 @@ BrMangue = Model {
 								end
 							end)
 						
-							aumentoNivelMar = 0.05 -- so para poder testar o comportamento
+							
 
-							qtdAgua = aumentoNivelMar / countNeigh
+							qtdAgua = model.Tx_elev / countNeigh
 					
 							cell.Alt2 = cell.Alt2 + qtdAgua 
 				
@@ -128,14 +131,14 @@ BrMangue = Model {
 							end)
 
 
-							deslocamentoHorizontalLama = model.alturaMare + aumentoNivelMar
+							--deslocamentoHorizontalLama = model.alturaMare + aumentoNivelMar
 
 						end
 					end)
 					cs:synchronize()
 					--cs:save("result"..ev:getTime(), "Alt2")
                     model.altitude_media = calc_altitude_media(cs)
-					sleep(0.5)
+					--sleep(0.5)
 				end
 			},
 
