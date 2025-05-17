@@ -43,7 +43,18 @@ function list_to_json(lst)
     return s
 end
 
--- Gera JSON manualmente
+-- Função para escrever lista com aspas duplas
+function list_to_json_string(list)
+    local s = "["
+    for i = 1, #list do
+        s = s .. '"' .. list[i] .. '"'
+        if i < #list then s = s .. ", " end
+    end
+    s = s .. "]"
+    return s
+end
+
+-- Escrever JSON manualmente
 local file = io.open("neighbors.json", "w")
 file:write("{\n")
 
@@ -54,10 +65,9 @@ for id, list in pairs(neighbors) do
     else
         first = false
     end
-    file:write('  "' .. tostring(id) .. '": ' .. list_to_json(list))
+    file:write('  "' .. id .. '": ' .. list_to_json_string(list))
 end
 
 file:write("\n}\n")
 file:close()
-
-print("Arquivo neighbors.json gerado manualmente.")
+print("Arquivo neighbors.json gerado corretamente com aspas.")
