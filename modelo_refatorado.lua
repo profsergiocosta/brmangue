@@ -106,7 +106,8 @@ end
 -- PROJETO E ESPAÇO CELULAR
 local project = Project{
     file = "recorte.qgs",
-    cell_usos = "data/anil/elevacao_pol.shp",
+    --cell_usos = "data/anil/elevacao_pol.shp",
+    cell_usos = "data/teste1/Recorte_Teste.shp",
     clean = true
 }
 
@@ -145,7 +146,8 @@ BrMangue = Model{
     finalTime = 100,
 
     tideHeight = 6,            -- Altura da maré (Ferreira, 1988)
-    seaLevelRiseRate = 0.011,  -- Taxa de elevação do nível do mar (IPCC, 2013)
+    --seaLevelRiseRate = 0.011,  -- Taxa de elevação do nível do mar (IPCC, 2013)
+    seaLevelRiseRate = 0.5,
 
     init = function(model)
         model.avgAlt, model.avgSeaAlt = calculateAverageAltitudes(cellSpace)
@@ -161,6 +163,8 @@ BrMangue = Model{
                 action = function(event)
                     local time = event:getTime()
                     print("ITERAÇÃO:", time)
+                    local celulas_modificadas = 0
+                    local soma_elevacao = 0
 
                     forEachCell(cellSpace, function(cell)
                         if isSeaOrFlooded(cell.past.Usos) and cell.past.Alt2 >= 0 then
@@ -172,14 +176,18 @@ BrMangue = Model{
                                 end
                             end)
 
-                            local flow = model.seaLevelRiseRate / neighborCount
+                            --local flow = model.seaLevelRiseRate / neighborCount
+                            local flow = model.seaLevelRiseRate 
                             cell.Alt2 = cell.Alt2 + flow
+
+                            celulas_modificadas = celulas_modificadas + 1
+                            soma_elevacao = soma_elevacao + flow
 
                             forEachNeighbor(cell, function(neigh)
                                 if neigh.past.Alt2 < cell.past.Alt2 then
-                                    neigh.Alt2 = neigh.Alt2 + flow
+                                    --neigh.Alt2 = neigh.Alt2 + flow
                                     if not isSeaOrFlooded(neigh.past.Usos) then
-                                        applyFlooding(neigh)
+                                        --applyFlooding(neigh)
                                     end
                                 end
                             end)
@@ -211,6 +219,7 @@ BrMangue = Model{
                             end
                         end
                     end)
+                    print (celulas_modificadas, soma_elevacao, soma_elevacao/celulas_modificadas)
 
                     model.avgAlt, model.avgSeaAlt = calculateAverageAltitudes(cellSpace)
                     cellSpace:synchronize()
