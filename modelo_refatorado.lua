@@ -190,7 +190,7 @@ BrMangue = Model{
                                     soma_elevacao = soma_elevacao + flow -- apenas para verificar se nao esta perdendo agua
                                     
                                     if not isSeaOrFlooded(neigh.past.Usos) then
-                                       -- applyFlooding(neigh) -- quando adiciona-se novas celulas de uso agua, tera mais celulas aumentando o nivel
+                                       applyFlooding(neigh) -- quando adiciona-se novas celulas de uso agua, tera mais celulas aumentando o nivel
                                     end
                                 end
                             end)
