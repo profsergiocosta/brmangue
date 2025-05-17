@@ -98,7 +98,7 @@ function cria_map_alt(cellSpace)
         target = cellSpace,
         select = "Alt2",
         color  = "RdYlGn",
-        slices = 10,
+        slices = 5,
         size = 1
     }
 end
@@ -106,8 +106,8 @@ end
 -- PROJETO E ESPAÇO CELULAR
 local project = Project{
     file = "recorte.qgs",
-    cell_usos = "data/anil/elevacao_pol.shp",
-    --cell_usos = "data/teste1/Recorte_Teste.shp",
+    --cell_usos = "data/anil/elevacao_pol.shp",
+    cell_usos = "data/teste1/Recorte_Teste.shp",
     clean = true
 }
 
@@ -143,11 +143,11 @@ end
 -- MODELO PRINCIPAL
 BrMangue = Model{
     start = 1,
-    finalTime = 40,
+    finalTime = 20,
 
     tideHeight = 6,            -- Altura da maré (Ferreira, 1988)
-    seaLevelRiseRate = 0.011,  -- Taxa de elevação do nível do mar (IPCC, 2013)
-    --seaLevelRiseRate = 0.5,
+    --seaLevelRiseRate = 0.011,  -- Taxa de elevação do nível do mar (IPCC, 2013)
+    seaLevelRiseRate = 0.5,
 
     init = function(model)
         model.avgAlt, model.avgSeaAlt = calculateAverageAltitudes(cellSpace)
@@ -190,7 +190,7 @@ BrMangue = Model{
                                     soma_elevacao = soma_elevacao + flow -- apenas para verificar se nao esta perdendo agua
                                     
                                     if not isSeaOrFlooded(neigh.past.Usos) then
-                                        applyFlooding(neigh) -- quando adiciona-se novas celulas de uso agua, tera mais celulas aumentando o nivel
+                                       -- applyFlooding(neigh) -- quando adiciona-se novas celulas de uso agua, tera mais celulas aumentando o nivel
                                     end
                                 end
                             end)
