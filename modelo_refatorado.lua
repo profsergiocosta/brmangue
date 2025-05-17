@@ -106,8 +106,8 @@ end
 -- PROJETO E ESPAÇO CELULAR
 local project = Project{
     file = "recorte.qgs",
-    --cell_usos = "data/anil/elevacao_pol.shp",
-    cell_usos = "data/teste1/Recorte_Teste.shp",
+    cell_usos = "data/anil/elevacao_pol.shp",
+    --cell_usos = "data/teste1/Recorte_Teste.shp",
     clean = true
 }
 
@@ -143,11 +143,11 @@ end
 -- MODELO PRINCIPAL
 BrMangue = Model{
     start = 1,
-    finalTime = 100,
+    finalTime = 40,
 
     tideHeight = 6,            -- Altura da maré (Ferreira, 1988)
-    --seaLevelRiseRate = 0.011,  -- Taxa de elevação do nível do mar (IPCC, 2013)
-    seaLevelRiseRate = 0.5,
+    seaLevelRiseRate = 0.011,  -- Taxa de elevação do nível do mar (IPCC, 2013)
+    --seaLevelRiseRate = 0.5,
 
     init = function(model)
         model.avgAlt, model.avgSeaAlt = calculateAverageAltitudes(cellSpace)
@@ -155,7 +155,7 @@ BrMangue = Model{
         model.altMap = cria_map_alt(cellSpace)
         model.landUseMap = cria_map(cellSpace)
 
-        --model.chartSea = Chart{ target = model, select = { "avgSeaAlt" } }
+        model.chartSea = Chart{ target = model, select = { "avgSeaAlt" } }
         model.chartAlt = Chart{ target = model, select = { "avgAlt" } }
 
         model.timer = Timer{
@@ -163,8 +163,9 @@ BrMangue = Model{
                 action = function(event)
                     local time = event:getTime()
                     print("ITERAÇÃO:", time)
-                    local celulas_modificadas = 0
-                    local soma_elevacao = 0
+                    
+                    local celulas_modificadas = 0 -- apenas para verificar se nao esta perdendo agua
+                    local soma_elevacao = 0 
 
                     forEachCell(cellSpace, function(cell)
                         if isSeaOrFlooded(cell.past.Usos) and cell.past.Alt2 >= 0 then
@@ -176,8 +177,7 @@ BrMangue = Model{
                                 end
                             end)
 
-                            --local flow = model.seaLevelRiseRate / neighborCount
-                            local flow = model.seaLevelRiseRate 
+                            local flow = model.seaLevelRiseRate / neighborCount
                             cell.Alt2 = cell.Alt2 + flow
 
                             celulas_modificadas = celulas_modificadas + 1
@@ -185,9 +185,12 @@ BrMangue = Model{
 
                             forEachNeighbor(cell, function(neigh)
                                 if neigh.past.Alt2 < cell.past.Alt2 then
-                                    --neigh.Alt2 = neigh.Alt2 + flow
+                                    neigh.Alt2 = neigh.Alt2 + flow
+
+                                    soma_elevacao = soma_elevacao + flow -- apenas para verificar se nao esta perdendo agua
+                                    
                                     if not isSeaOrFlooded(neigh.past.Usos) then
-                                        --applyFlooding(neigh)
+                                        applyFlooding(neigh) -- quando adiciona-se novas celulas de uso agua, tera mais celulas aumentando o nivel
                                     end
                                 end
                             end)
@@ -219,6 +222,7 @@ BrMangue = Model{
                             end
                         end
                     end)
+                    -- verificar se nao esta perdendo "agua"
                     print (celulas_modificadas, soma_elevacao, soma_elevacao/celulas_modificadas)
 
                     model.avgAlt, model.avgSeaAlt = calculateAverageAltitudes(cellSpace)
@@ -228,7 +232,7 @@ BrMangue = Model{
             Event {action = model.altMap},
 			Event {action = model.landUseMap},
             Event{ start = model.start + 2, action = model.chartAlt },
-           -- Event{ start = model.start + 2, action = model.chartSea }
+            Event{ start = model.start + 2, action = model.chartSea }
         }
     end
 }
