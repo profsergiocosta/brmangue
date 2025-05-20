@@ -25,6 +25,46 @@ SOLO_MANGUE_MIGRADO = 9
 
 CANAL_FLUVIAL = 0
 
+
+-----------------------
+--- esses codigos irao para outro arquivo
+--- 
+-- Mapeamento: código de uso -> campo no model
+uso_map = {
+	[MAR] = "areaMar_USO",
+	[MANGUE] = "areaMangueRemanescente_USO",
+	[MANGUE_INUNDADO] = "areaMangueInundado_USO",
+	[MANGUE_MIGRADO] = "areaMangueMigrado_USO",
+	[AREA_ANTROPIZADA] = "areaAntropizada_USO",
+	[AREA_ANTROPIZADA_INUNDADO] = "areaAntropizadaInundada_USO",
+	[SOLO_DESCOBERTO] = "areaSoloDescoberto_USO",
+	[SOLO_DESCOBERTO_INUNDADO] = "areaSoloDescobertoInundado_USO",
+	[VEGETACAO_TERRESTRE] = "areaVegetacao_USO",
+	[VEGETACAO_TERRESTRE_INUNDADO] = "areaVegetacaoInundado_USO"
+}
+
+function inicializa(model)
+	for _, campo in pairs(uso_map) do
+		model[campo] = 0
+	end
+end
+
+function contagem(model, cs, areaCelula)
+	inicializa(model)
+
+	forEachCell(cs, function(cell)
+		local campoUso = uso_map[cell.Usos]
+		if campoUso then
+			model[campoUso] = model[campoUso] + areaCelula
+		end
+	end)
+
+	model.total_USO = 0
+	for _, campo in pairs(uso_map) do
+		model.total_USO = model.total_USO + (model[campo] or 0)
+	end
+end
+
 -- FUNÇÃO UTILITÁRIA: VERIFICA SE É MAR OU INUNDADO
 function isSeaOrFlooded(uso)
     return uso == MAR or
@@ -128,12 +168,21 @@ BrMangue = Model {
     start = 1,
     finalTime = 100,
 
+    areaCelula = 0.09,
+
     tideHeight = 6, -- Altura da maré (Ferreira, 1988)
     --seaLevelRiseRate = 0.011,  -- Taxa de elevação do nível do mar (IPCC, 2013)
     seaLevelRiseRate = 0.5,
 
     init = function(model)
+
+        inicializa(model) -- inicializa as varias com calculo de área
         
+        model.chart = Chart{
+			target = model,
+			select = {"areaVegetacao_USO", "areaVegetacaoInundado_USO"}
+		}
+
         model.altMap = map_alt(cellSpace)
         model.landUseMap = mapa_uso(cellSpace)
 
@@ -218,6 +267,14 @@ BrMangue = Model {
             },
             Event { action = model.altMap },
             Event { action = model.landUseMap },
+
+            Event {
+				action = function (ev)
+					contagem(model, cellSpace, model.areaCelula)
+				end
+			},
+
+            Event {start = model.start + 1, action = model.chart}
         }
     end
 }
