@@ -227,8 +227,9 @@ ModeloMangue = Model {
                                 end
                             end)
                         end
-
-                        -- MIGRAÇÃO DE MANGUE
+                        ---------------------------------------------------------
+                        -- DINÂMICA DO MANGUE
+                        ----------------------------------
                         local nivelMar = tempo * modelo.taxaElevacaoMar
                         local nivelMar_mm = nivelMar * 1000
                         local taxaAcrecao_mm = 1.693 + (0.939 * nivelMar_mm)
@@ -255,11 +256,12 @@ ModeloMangue = Model {
                             end)
                         end
 
-                        -- ACRESÇÃO VERTICAL DE LAMA
+                        -- ACRESÇÃO VERTICAL DA LAMA
                         if (celula.ClaseSolos == SOLO_MANGUE or celula.ClaseSolos == SOLO_MANGUE_MIGRADO)
                             and not ehMarOuInundado(celula.Usos) then
                             celula.Alt2 = celula.Alt2 + taxaAcrecao_m
                         end
+                        
                     end)
 
                     espacoCelular:synchronize()
