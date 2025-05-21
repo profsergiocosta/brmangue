@@ -1,122 +1,129 @@
--- Sea-Level Rise Impacts on Mangrove Ecosystem
--- Case Study: Maranhense Reentrances
--- Author: Denilson da Silva Bezerra
--- Refactored by: Sergio Souza Costa
+-- IMPACTOS DA ELEVAÇÃO DO NÍVEL DO MAR EM ECOSSISTEMAS DE MANGUE
+-- ESTUDO DE CASO: REENTRÂNCIAS MARANHENSES
+-- AUTOR: Denilson da Silva Bezerra
+-- REVISADO E REESTRUTURADO POR: Sergio Souza Costa
 
--- IMPORTS
+-- ===============================================================
+-- IMPORTAÇÃO DE BIBLIOTECAS
+-- ===============================================================
 import("gis")
 
-
+-- ===============================================================
 -- CONSTANTES - CLASSES DE USO DA TERRA
-MANGUE = 1
-VEGETACAO_TERRESTRE = 2
-MAR = 3
-AREA_ANTROPIZADA = 4
-SOLO_DESCOBERTO = 5
-SOLO_DESCOBERTO_INUNDADO = 6
-AREA_ANTROPIZADA_INUNDADO = 7
-MANGUE_MIGRADO = 8
-MANGUE_INUNDADO = 9
-VEGETACAO_TERRESTRE_INUNDADO = 10
+-- ===============================================================
+USO_MANGUE = 1
+USO_VEGETACAO_TERRESTRE = 2
+USO_MAR = 3
+USO_AREA_ANTROPIZADA = 4
+USO_SOLO_DESCOBERTO = 5
+USO_SOLO_INUNDADO = 6
+USO_AREA_ANTROPIZADA_INUNDADA = 7
+USO_MANGUE_MIGRADO = 8
+USO_MANGUE_INUNDADO = 9
+USO_VEGETACAO_TERRESTRE_INUNDADA = 10
 
+-- ===============================================================
 -- CONSTANTES - CLASSES DE SOLO
+-- ===============================================================
 SOLO_MANGUE = 3
 SOLO_MANGUE_MIGRADO = 9
+SOLO_CANAL_FLUVIAL = 0
 
-CANAL_FLUVIAL = 0
-
-
------------------------
---- esses codigos irao para outro arquivo
---- 
--- Mapeamento: código de uso -> campo no model
-uso_map = {
-	[MAR] = "areaMar_USO",
-	[MANGUE] = "areaMangueRemanescente_USO",
-	[MANGUE_INUNDADO] = "areaMangueInundado_USO",
-	[MANGUE_MIGRADO] = "areaMangueMigrado_USO",
-	[AREA_ANTROPIZADA] = "areaAntropizada_USO",
-	[AREA_ANTROPIZADA_INUNDADO] = "areaAntropizadaInundada_USO",
-	[SOLO_DESCOBERTO] = "areaSoloDescoberto_USO",
-	[SOLO_DESCOBERTO_INUNDADO] = "areaSoloDescobertoInundado_USO",
-	[VEGETACAO_TERRESTRE] = "areaVegetacao_USO",
-	[VEGETACAO_TERRESTRE_INUNDADO] = "areaVegetacaoInundado_USO"
+-- ===============================================================
+-- MAPEAMENTO DE CLASSES DE USO PARA CAMPOS DO MODELO
+-- ===============================================================
+mapa_uso_campo = {
+    [USO_MAR] = "areaMar",
+    [USO_MANGUE] = "areaMangueRemanescente",
+    [USO_MANGUE_INUNDADO] = "areaMangueInundado",
+    [USO_MANGUE_MIGRADO] = "areaMangueMigrado",
+    [USO_AREA_ANTROPIZADA] = "areaAntropizada",
+    [USO_AREA_ANTROPIZADA_INUNDADA] = "areaAntropizadaInundada",
+    [USO_SOLO_DESCOBERTO] = "areaSoloDescoberto",
+    [USO_SOLO_INUNDADO] = "areaSoloInundado",
+    [USO_VEGETACAO_TERRESTRE] = "areaVegetacao",
+    [USO_VEGETACAO_TERRESTRE_INUNDADA] = "areaVegetacaoInundada"
 }
 
-function inicializa(model)
-	for _, campo in pairs(uso_map) do
-		model[campo] = 0
-	end
-end
-
-function contagem(model, cs, areaCelula)
-	inicializa(model)
-
-	forEachCell(cs, function(cell)
-		local campoUso = uso_map[cell.Usos]
-		if campoUso then
-			model[campoUso] = model[campoUso] + areaCelula
-		end
-	end)
-
-	model.total_USO = 0
-	for _, campo in pairs(uso_map) do
-		model.total_USO = model.total_USO + (model[campo] or 0)
-	end
-end
-
--- FUNÇÃO UTILITÁRIA: VERIFICA SE É MAR OU INUNDADO
-function isSeaOrFlooded(uso)
-    return uso == MAR or
-        uso == SOLO_DESCOBERTO_INUNDADO or
-        uso == AREA_ANTROPIZADA_INUNDADO or
-        uso == MANGUE_INUNDADO or
-        uso == VEGETACAO_TERRESTRE_INUNDADO
-end
-
--- FUNÇÃO DE INUNDAÇÃO
-function applyFlooding(cell)
-    local uso = cell.past.Usos
-
-    if uso == MANGUE then
-        cell.Usos = MANGUE_INUNDADO
-    elseif uso == VEGETACAO_TERRESTRE then
-        cell.Usos = VEGETACAO_TERRESTRE_INUNDADO
-    elseif uso == AREA_ANTROPIZADA then
-        cell.Usos = AREA_ANTROPIZADA_INUNDADO
-    elseif uso == SOLO_DESCOBERTO then
-        cell.Usos = SOLO_DESCOBERTO_INUNDADO
+-- ===============================================================
+-- FUNÇÕES DE INICIALIZAÇÃO E CONTAGEM
+-- ===============================================================
+function inicializarAreas(modelo)
+    for _, campo in pairs(mapa_uso_campo) do
+        modelo[campo] = 0
     end
 end
 
--- MAPA DE USO DA TERRA
-function mapa_uso(cs)
+function contarUsoDaTerra(modelo, espacoCelular, areaCelula)
+    inicializarAreas(modelo)
+
+    forEachCell(espacoCelular, function(celula)
+        local campo = mapa_uso_campo[celula.Usos]
+        if campo then
+            modelo[campo] = modelo[campo] + areaCelula
+        end
+    end)
+
+    modelo.areaTotal = 0
+    for _, campo in pairs(mapa_uso_campo) do
+        modelo.areaTotal = modelo.areaTotal + (modelo[campo] or 0)
+    end
+end
+
+-- ===============================================================
+-- FUNÇÕES AUXILIARES
+-- ===============================================================
+function ehMarOuInundado(uso)
+    return uso == USO_MAR
+        or uso == USO_SOLO_INUNDADO
+        or uso == USO_AREA_ANTROPIZADA_INUNDADA
+        or uso == USO_MANGUE_INUNDADO
+        or uso == USO_VEGETACAO_TERRESTRE_INUNDADA
+end
+
+function aplicarInundacao(celula)
+    local usoAtual = celula.past.Usos
+    if usoAtual == USO_MANGUE then
+        celula.Usos = USO_MANGUE_INUNDADO
+    elseif usoAtual == USO_VEGETACAO_TERRESTRE then
+        celula.Usos = USO_VEGETACAO_TERRESTRE_INUNDADA
+    elseif usoAtual == USO_AREA_ANTROPIZADA then
+        celula.Usos = USO_AREA_ANTROPIZADA_INUNDADA
+    elseif usoAtual == USO_SOLO_DESCOBERTO then
+        celula.Usos = USO_SOLO_INUNDADO
+    end
+end
+
+-- ===============================================================
+-- FUNÇÃO DE VISUALIZAÇÃO DOS MAPAS
+-- ===============================================================
+function mapaUso(espacoCelular)
     return Map {
-        target = cs,
+        target = espacoCelular,
         select = "Usos",
         value = {
-            MANGUE,
-            VEGETACAO_TERRESTRE,
-            MAR,
-            AREA_ANTROPIZADA,
-            SOLO_DESCOBERTO,
-            SOLO_DESCOBERTO_INUNDADO,
-            AREA_ANTROPIZADA_INUNDADO,
-            MANGUE_MIGRADO,
-            MANGUE_INUNDADO,
-            VEGETACAO_TERRESTRE_INUNDADO
+            USO_MANGUE,
+            USO_VEGETACAO_TERRESTRE,
+            USO_MAR,
+            USO_AREA_ANTROPIZADA,
+            USO_SOLO_DESCOBERTO,
+            USO_SOLO_INUNDADO,
+            USO_AREA_ANTROPIZADA_INUNDADA,
+            USO_MANGUE_MIGRADO,
+            USO_MANGUE_INUNDADO,
+            USO_VEGETACAO_TERRESTRE_INUNDADA
         },
         color = {
-            { 0,   100, 0 }, -- MANGUE
-            { 128, 128, 0 }, -- VEGETACAO_TERRESTRE
-            { 0,   0,   139 }, -- MAR
-            { 255, 215, 0 }, -- AREA_ANTROPIZADA
-            { 255, 222, 173 }, -- SOLO_DESCOBERTO
-            { 0,   0,   0 }, -- SOLO_DESCOBERTO_INUNDADO
-            { 0,   0,   0 }, -- AREA_ANTROPIZADA_INUNDADO
-            { 0,   255, 0 }, -- MANGUE_MIGRADO
-            { 255, 0,   0 }, -- MANGUE_INUNDADO
-            { 0,   0,   0 }  -- VEGETACAO_TERRESTRE_INUNDADO
+            { 0,   100, 0 },
+            { 128, 128, 0 },
+            { 0,   0,   139 },
+            { 255, 215, 0 },
+            { 255, 222, 173 },
+            { 0,   0,   0 },
+            { 0,   0,   0 },
+            { 0,   255, 0 },
+            { 255, 0,   0 },
+            { 0,   0,   0 }
         },
         label = {
             "Mangue",
@@ -133,150 +140,147 @@ function mapa_uso(cs)
     }
 end
 
--- MAPA DE ALTITUDE
-function map_alt(cellSpace)
+function mapaAltitude(espacoCelular)
     return Map {
-        target = cellSpace,
+        target = espacoCelular,
         select = "Alt2",
-        color  = "RdYlGn",
+        color = "RdYlGn",
         slices = 5,
-        size   = 1
+        size = 1
     }
 end
 
--- PROJETO E ESPAÇO CELULAR
-local project = Project {
+-- ===============================================================
+-- CARREGAMENTO DO PROJETO E ESPAÇO CELULAR
+-- ===============================================================
+local projeto = Project {
     file = "recorte.qgs",
     cell_usos = "data/anil/elevacao_pol.shp",
-    ---cell_usos = "data/teste1/Recorte_Teste.shp",
     clean = true
 }
 
-local cellSpace = CellularSpace {
-    project = project,
+local espacoCelular = CellularSpace {
+    project = projeto,
     layer = "cell_usos",
     xy = { "Col", "Lin" },
-    select = { "ClasseSolos", "Alt2", "Usos" }
+    select = { "ClaseSolos", "Alt2", "Usos" }
 }
 
-cellSpace:createNeighborhood { strategy = "moore", self = false }
-cellSpace:synchronize()
+espacoCelular:createNeighborhood { strategy = "moore", self = false }
+espacoCelular:synchronize()
 
-
+-- ===============================================================
 -- MODELO PRINCIPAL
-BrMangue = Model {
+-- ===============================================================
+ModeloMangue = Model {
     start = 1,
     finalTime = 100,
 
     areaCelula = 0.09,
+    alturaMare = 6, -- altura da maré (Ferreira, 1988)
+    taxaElevacaoMar = 0.5,
+    --taxaElevacaoMar = 0.011,  -- Taxa de elevação do nível do mar (IPCC, 2013)
 
-    tideHeight = 6, -- Altura da maré (Ferreira, 1988)
-    --seaLevelRiseRate = 0.011,  -- Taxa de elevação do nível do mar (IPCC, 2013)
-    seaLevelRiseRate = 0.5,
+    init = function(modelo)
 
-    init = function(model)
+        inicializarAreas(modelo)
 
-        inicializa(model) -- inicializa as varias com calculo de área
-        
-        model.chart = Chart{
-			target = model,
-			select = {"areaVegetacao_USO", "areaVegetacaoInundado_USO"}
-		}
+        modelo.grafico = Chart{
+            target = modelo,
+            select = {
+                "areaVegetacao",
+                "areaVegetacaoInundada",
+                "areaMangueMigrado"
+            }
+        }
 
-        model.altMap = map_alt(cellSpace)
-        model.landUseMap = mapa_uso(cellSpace)
+        modelo.mapaAltitude = mapaAltitude(espacoCelular)
+        modelo.mapaUso = mapaUso(espacoCelular)
 
-        model.timer = Timer {
+        modelo.timer = Timer {
             Event {
-                action = function(event)
-                    local time = event:getTime()
-                    print("ITERAÇÃO:", time)
+                action = function(evento)
+                    local tempo = evento:getTime()
+                    print("ITERAÇÃO:", tempo)
 
+                    forEachCell(espacoCelular, function(celula)
+                        -- AUMENTO DE NÍVEL DO MAR
+                        if ehMarOuInundado(celula.past.Usos) and celula.past.Alt2 >= 0 then
+                            local vizinhosBaixos = 1
 
-                    forEachCell(cellSpace, function(cell)
-                        if isSeaOrFlooded(cell.past.Usos) and cell.past.Alt2 >= 0 then
-                            local neighborCount = 1
-
-                            forEachNeighbor(cell, function(neigh)
-                                if neigh.past.Alt2 < cell.past.Alt2 then
-                                    neighborCount = neighborCount + 1
+                            forEachNeighbor(celula, function(vizinho)
+                                if vizinho.past.Alt2 < celula.past.Alt2 then
+                                    vizinhosBaixos = vizinhosBaixos + 1
                                 end
                             end)
 
-                            local flow = model.seaLevelRiseRate / neighborCount
-                            cell.Alt2 = cell.Alt2 + flow
+                            local fluxo = modelo.taxaElevacaoMar / vizinhosBaixos
+                            celula.Alt2 = celula.Alt2 + fluxo
 
+                            forEachNeighbor(celula, function(vizinho)
+                                if vizinho.past.Alt2 < celula.past.Alt2 then
+                                    vizinho.Alt2 = vizinho.Alt2 + fluxo
 
-                            forEachNeighbor(cell, function(neigh)
-                                if neigh.past.Alt2 < cell.past.Alt2 then
-                                    neigh.Alt2 = neigh.Alt2 + flow
-
-                                     if not isSeaOrFlooded(neigh.past.Usos) then
-                                        applyFlooding(neigh) -- quando adiciona-se novas celulas de uso agua, tera mais celulas aumentando o nivel
+                                    if not ehMarOuInundado(vizinho.past.Usos) then
+                                        aplicarInundacao(vizinho)
                                     end
                                 end
                             end)
                         end
 
-                        ---------------------------------------------
-                        --- Dinâmica da lama (migração do mangue)
-                        --- ----------------------------------------
-                        
-                        
-                        local nmrm = time * model.seaLevelRiseRate
-                        local nmrm_m = nmrm * 1000
-                        local accretionRate_mm = 1.693 + (0.939 * nmrm_m)
-                        local accretionRate_m = accretionRate_mm / 1000
+                        -- MIGRAÇÃO DE MANGUE
+                        local nivelMar = tempo * modelo.taxaElevacaoMar
+                        local nivelMar_mm = nivelMar * 1000
+                        local taxaAcrecao_mm = 1.693 + (0.939 * nivelMar_mm)
+                        local taxaAcrecao_m = taxaAcrecao_mm / 1000
+                        local zonaInfluencia = modelo.alturaMare + nivelMar
 
-                        local tidalInfluenceZone = model.tideHeight + nmrm
-
-                        if cell.ClasseSolos == SOLO_MANGUE or cell.ClasseSolos == CANAL_FLUVIAL then
-                            forEachNeighbor(cell, function(neigh)
-                                if (neigh.Usos == VEGETACAO_TERRESTRE or neigh.Usos == SOLO_DESCOBERTO)
-                                    and (neigh.ClasseSolos ~= SOLO_MANGUE)
-                                    and (neigh.Alt2 <= tidalInfluenceZone) then
-                                    neigh.ClasseSolos = SOLO_MANGUE_MIGRADO
+                        if celula.ClaseSolos == SOLO_MANGUE or celula.ClaseSolos == SOLO_CANAL_FLUVIAL then
+                            forEachNeighbor(celula, function(vizinho)
+                                if (vizinho.Usos == USO_VEGETACAO_TERRESTRE or vizinho.Usos == USO_SOLO_DESCOBERTO)
+                                    and vizinho.ClaseSolos ~= SOLO_MANGUE
+                                    and vizinho.Alt2 <= zonaInfluencia then
+                                    vizinho.ClaseSolos = SOLO_MANGUE_MIGRADO
                                 end
                             end)
                         end
 
-                        if cell.Usos == MANGUE then
-                            forEachNeighbor(cell, function(neigh)
-                                if (neigh.Usos == VEGETACAO_TERRESTRE or neigh.Usos == SOLO_DESCOBERTO)
-                                    and neigh.Alt2 <= tidalInfluenceZone
-                                    and (neigh.ClasseSolos == SOLO_MANGUE_MIGRADO or neigh.ClasseSolos == SOLO_MANGUE)
-                                then
-                                    neigh.Usos = MANGUE_MIGRADO
+                        if celula.Usos == USO_MANGUE then
+                            forEachNeighbor(celula, function(vizinho)
+                                if (vizinho.Usos == USO_VEGETACAO_TERRESTRE or vizinho.Usos == USO_SOLO_DESCOBERTO)
+                                    and vizinho.Alt2 <= zonaInfluencia
+                                    and (vizinho.ClaseSolos == SOLO_MANGUE_MIGRADO or vizinho.ClaseSolos == SOLO_MANGUE) then
+                                    vizinho.Usos = USO_MANGUE_MIGRADO
                                 end
                             end)
                         end
 
-
-                        --
-                        -- rate of vertical accretion of mud in each cell
-                        if (cell.ClasseSolos == MANGUE)
-                            or (cell.ClassesSolos == MANGUE_MIGRADO)
-                            and not isSeaOrFlooded(cell.Usos) then
-                            cell.Alt2 = cell.Alt2 + accretionRate_m --- Alongi
+                        -- ACRESÇÃO VERTICAL DE LAMA
+                        if (celula.ClaseSolos == SOLO_MANGUE or celula.ClaseSolos == SOLO_MANGUE_MIGRADO)
+                            and not ehMarOuInundado(celula.Usos) then
+                            celula.Alt2 = celula.Alt2 + taxaAcrecao_m
                         end
-                        --
-                    end)                  
+                    end)
 
-                    cellSpace:synchronize()
+                    espacoCelular:synchronize()
                 end
             },
-            Event { action = model.altMap },
-            Event { action = model.landUseMap },
+
+            Event { action = modelo.mapaAltitude },
+            Event { action = modelo.mapaUso },
 
             Event {
-				action = function (ev)
-					contagem(model, cellSpace, model.areaCelula)
-				end
-			},
+                action = function(evento)
+                    contarUsoDaTerra(modelo, espacoCelular, modelo.areaCelula)
+                end
+            },
 
-            Event {start = model.start + 1, action = model.chart}
+            Event {
+                start = modelo.start + 1,
+                action = modelo.grafico
+            }
         }
     end
 }
 
-BrMangue:run()
+ModeloMangue:run()
